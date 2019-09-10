@@ -1,4 +1,4 @@
-import { property } from 'hybrids';
+import { property, camelToDash } from 'hybrids';
 import { getType, coerceToType, setAttr } from './utils';
 
 // Keep track of any instances of any components that use reflected attributes.
