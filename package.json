@@ -1,0 +1,26 @@
+{
+  "name": "@nullset/hybrids-reflect",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": {
+    "name": "Nathan Wright"
+  },
+  "scripts": {
+    "build": "rollup -c --environment INCLUDE_DEPS,NODE_ENV:production",
+    "lint": "eslint \"src/**/*.js\"",
+    "start": "rollup -w -c"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "eslint": "^6.3.0",
+    "rollup": "^1.21.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.1"
+  },
+  "dependencies": {
+    "hybrids": "^4.0.2"
+  }
+}
