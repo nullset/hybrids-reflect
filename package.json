@@ -5,6 +5,7 @@
   "author": {
     "name": "Nathan Wright"
   },
+  "repository": "https://github.com/nullset/hybrids-reflect",
   "scripts": {
     "build": "rollup -c --environment INCLUDE_DEPS,NODE_ENV:production",
     "lint": "eslint \"src/**/*.js\"",
