@@ -51,11 +51,15 @@ export default function reflect(value, methods = {}) {
       }
 
       // Call any individually defined `connect` method the property may have.
-      if (methods.connect) methods.connect(host, key);
+      let disconnectFn;
+      if (methods.connect) {
+        disconnectFn = methods.connect(host, key);
+      }
 
       // Once a host disconnects, stop watching it and remove it from WeakMap.
       // Only run code once no matter how many reflected keys it has.
       return () => {
+        disconnectFn && disconnectFn();
         if (observer) {
           observer.disconnect();
           hosts.delete(host);  
