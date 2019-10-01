@@ -69,22 +69,15 @@ export default function reflect(value, methods = {}) {
   }
   const _get = properties.get;
   properties.get = (host, val = value) => {
-    let newVal;
-    if (methods.get) newVal = methods.get(host, val);
-    return _get(host, newVal !== undefined ? newVal : val);
+    return methods.get ? methods.get(host, val) : _get(host, val);
   };
   const _set = properties.set;
   properties.set = (host, val, oldValue) => {
-    let newVal;
-    if (methods.set) newVal = methods.set(host, val, oldValue);
-    _set(host, newVal !== undefined ? newVal : val, oldValue)
+    return methods.set ? methods.set(host, val, oldValue) : _set(host, val, oldValue);
   };
   properties.observe = (host, value, oldValue) => {
-    let newVal;
-    if (methods.observe) newVal = methods.observe(host, value, oldValue);
-
-    // If a reflected property changes, reflect that change to the attribute.
-    setAttr(host, attrName, type, newVal !== undefined ? newVal : value, oldValue)
+    setAttr(host, attrName, type, value, oldValue)
+    if (methods.observe) methods.observe(host, value, oldValue);
   };
   return properties;
 }
