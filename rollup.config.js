@@ -8,16 +8,16 @@ export default [
   {
     external: ['hybrids'],
     input: 'src/index.js',
+    external: [ 'hybrids', 'hybrids/src/utils' ],
     output: {
       file: 'dist/index.js',
       format: 'es',
       sourcemap: true,
     },
     plugins: [
-      // resolve({include: 'node_modules/**'}),
       resolve(),
       babel(),
-      isProduction && terser(),
+      // isProduction && terser(),
     ]
   },
 ];

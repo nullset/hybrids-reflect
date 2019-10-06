@@ -1,0 +1,17 @@
+module.exports = {
+  "presets": [
+    ["@babel/preset-env", { "modules": false, "targets": "IE 11" }]
+  ],
+  "env": {
+    "cjs": {
+      "presets": [
+        ["@babel/preset-env", { "modules": "commonjs", "targets": "IE 11" }]
+      ]
+    },
+    "coverage": {
+      "plugins": [
+        ["babel-plugin-istanbul", { "include": ["src/**/*.js"] }]
+      ]
+    }
+  }
+}
