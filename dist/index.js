@@ -185,9 +185,10 @@ function reflect(value) {
   var type;
   var attrName;
   var observer;
+  var reflectedValue = value;
 
-  var properties = _objectSpread2({}, property(value, function connect(host, key) {
-    type = getType(value);
+  var properties = _objectSpread2({}, property(reflectedValue, function connect(host, key) {
+    type = getType(reflectedValue);
     attrName = camelToDash(key);
     var tagName = host.tagName; // Assign all reflected attributes to a map whose lookup is the tagName.
 
@@ -195,13 +196,18 @@ function reflect(value) {
     reflectedAttributes.set(tagName, attrMap.set(attrName, {
       key: key,
       type: type
-    })); // Set coerced value for key, as derived from attribute.
+    }));
+
+    if (key === 'open') {
+      debugger;
+    } // Set coerced value for key, as derived from attribute.
+
 
     var attrValue = host.getAttribute(attrName);
 
     if (attrValue !== null) {
-      value = coerceToType(attrValue, type);
-      host[key] = value;
+      reflectedValue = coerceToType(attrValue, type);
+      host[key] = reflectedValue;
     } // Only assign a single mutation observer to watch any single host, no matter how many reflected keys it has.
 
 
@@ -221,10 +227,10 @@ function reflect(value) {
 
             var _attrValue = target.getAttribute(attributeName);
 
-            var _value = coerceToType(_attrValue, _type);
+            var _reflectedValue = coerceToType(_attrValue, _type);
 
-            if (_value !== host[_key]) {
-              target[_key] = _value;
+            if (_reflectedValue !== host[_key]) {
+              target[_key] = _reflectedValue;
             }
           }
         });
@@ -267,9 +273,9 @@ function reflect(value) {
     return methods.set ? methods.set(host, val, oldValue) : _set(host, val, oldValue);
   };
 
-  properties.observe = function (host, value, oldValue) {
-    setAttr(host, attrName, type, value, oldValue);
-    if (methods.observe) methods.observe(host, value, oldValue);
+  properties.observe = function (host, val, oldValue) {
+    setAttr(host, attrName, type, val, oldValue);
+    if (methods.observe) methods.observe(host, val, oldValue);
   };
 
   return properties;
