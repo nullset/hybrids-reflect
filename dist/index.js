@@ -196,12 +196,7 @@ function reflect(value) {
     reflectedAttributes.set(tagName, attrMap.set(attrName, {
       key: key,
       type: type
-    }));
-
-    if (key === 'open') {
-      debugger;
-    } // Set coerced value for key, as derived from attribute.
-
+    })); // Set coerced value for key, as derived from attribute.
 
     var attrValue = host.getAttribute(attrName);
 

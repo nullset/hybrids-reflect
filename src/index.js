@@ -23,10 +23,6 @@ export default function reflect(value, methods = {}) {
       const attrMap = reflectedAttributes.get(tagName) || new Map();
       reflectedAttributes.set(tagName, attrMap.set(attrName, { key, type }));
 
-      if (key === 'open') {
-        debugger;
-      }
-
       // Set coerced value for key, as derived from attribute.
       const attrValue = host.getAttribute(attrName);
       if (attrValue !== null) {
