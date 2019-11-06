@@ -1,6 +1,6 @@
 {
   "name": "@nullset/hybrids-reflect",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "dist/index.js",
   "author": {
     "name": "Nathan Wright"
