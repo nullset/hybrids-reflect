@@ -1,15 +1,20 @@
 export function getType(value) {
   switch (typeof value) {
-    case 'undefined': return undefined;
-    case 'number': return Number;
-    case 'boolean': return Boolean;
+    case 'undefined':
+      return undefined;
+    case 'number':
+      return Number;
+    case 'boolean':
+      return Boolean;
     case 'object':
       if (value === null) return null;
       if (Array.isArray(value)) return Array;
       return Object;
-    case 'function': return Function;
+    case 'function':
+      return Function;
     case 'string':
-    default: return String;
+    default:
+      return String;
   }
 }
 
@@ -32,7 +37,8 @@ export function coerceToType(value, type) {
       return JSON.parse(value);
     case Function:
       return undefined;
-    default: return undefined;
+    default:
+      return undefined;
   }
 }
 
@@ -57,7 +63,11 @@ export function setAttr(host, attrName, type, val, oldValue) {
         }
         break;
       case Object:
-        if (val === undefined || val === null || Object.keys(val).length === 0) {
+        if (
+          val === undefined ||
+          val === null ||
+          Object.keys(val).length === 0
+        ) {
           host.removeAttribute(attrName);
         } else {
           host.setAttribute(attrName, JSON.stringify(val));
@@ -81,5 +91,5 @@ export function setAttr(host, attrName, type, val, oldValue) {
         }
         break;
     }
-  }  
+  }
 }
