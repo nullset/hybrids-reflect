@@ -32,7 +32,7 @@ const MyComponent = {
   myEmptyArrayProp: reflect([]),
   myObjectProp: reflect({foo: "bar"}),
   myEmptyObjectProp: reflect({}),
-  myUnknownInitialValueProp: reflect(unknown, {type: Number})
+  myUnknownInitialValueProp: reflect(undefined, {type: Number})
 }
 
 define('my-component', MyComponent);
