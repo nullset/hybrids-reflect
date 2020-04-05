@@ -1,6 +1,6 @@
-import { property } from 'hybrids';
-import { camelToDash } from 'hybrids/src/utils';
-import { getType, coerceToType, setAttr } from './utils';
+import { property } from "hybrids";
+import { camelToDash } from "hybrids/src/utils";
+import { getType, coerceToType, setAttr } from "./utils";
 
 // Keep track of any instances of any components that use reflected attributes.
 const hosts = new WeakMap();
@@ -15,7 +15,7 @@ export default function reflect(value, methods = {}) {
   let reflectedValue = value;
   const properties = {
     ...property(reflectedValue, function connect(host, key) {
-      type = getType(reflectedValue);
+      type = methods.type || getType(reflectedValue);
       attrName = camelToDash(key);
       const tagName = host.tagName;
 
@@ -33,7 +33,7 @@ export default function reflect(value, methods = {}) {
       // Only assign a single mutation observer to watch any single host, no matter how many reflected keys it has.
       const hasObserver = hosts.get(host);
       if (!hasObserver) {
-        observer = new MutationObserver(mutations => {
+        observer = new MutationObserver((mutations) => {
           const watchedAttrs = reflectedAttributes.get(tagName);
           mutations.forEach(({ attributeName, target }) => {
             const watchedAttr = watchedAttrs.get(attributeName);
@@ -66,7 +66,7 @@ export default function reflect(value, methods = {}) {
           hosts.delete(host);
         }
       };
-    })
+    }),
   };
   const _get = properties.get;
   properties.get = (host, val = value) => {
