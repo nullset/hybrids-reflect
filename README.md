@@ -20,7 +20,7 @@ or
 
 ### Usage notes
 
-This plugin enables the developer to reflect `String`, `Number`, `Boolean`, `Array`, and `Object` data types to the DOM. The representation of that data in the DOM attribute is determined by its data type. As such, any reflected property must have a default value.
+This plugin enables the developer to reflect `String`, `Number`, `Boolean`, `Array`, and `Object` data types to the DOM. The representation of that data in the DOM attribute is determined by its data type. Data type can either be derived from the default value, or, if no default value can be provided (due to it being unknown at instantiation) an explicit data type can be set manually.
 
 ```
 const MyComponent = {
@@ -32,6 +32,7 @@ const MyComponent = {
   myEmptyArrayProp: reflect([]),
   myObjectProp: reflect({foo: "bar"}),
   myEmptyObjectProp: reflect({}),
+  myUnknownInitialValueProp: reflect(unknown, {type: Number})
 }
 
 define('my-component', MyComponent);
@@ -64,7 +65,7 @@ Currently untested, this will change shortly. :)
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/nullset/hybrids-reflect/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/nullset/hybrids-reflect/tags).
 
 ## License
 
@@ -72,4 +73,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Big hat tip to [smalluban](https://github.com/hybridsjs/hybrids/commits?author=smalluban) for Hybrids, as well as his [inspiration](https://github.com/hybridsjs/hybrids/pull/63#issuecomment-529217781) in creating this plugin.
+- Big hat tip to [smalluban](https://github.com/hybridsjs/hybrids/commits?author=smalluban) for Hybrids, as well as his [inspiration](https://github.com/hybridsjs/hybrids/pull/63#issuecomment-529217781) in creating this plugin.
