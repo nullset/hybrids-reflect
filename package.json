@@ -2,10 +2,11 @@
   "name": "@nullset/hybrids-reflect",
   "version": "1.0.14",
   "main": "dist/index.js",
-  "author": {
-    "name": "Nathan Wright"
+  "author": "Nathan Wright",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nullset/hybrids-reflect.git"
   },
-  "repository": "https://github.com/nullset/hybrids-reflect",
   "scripts": {
     "build": "rollup -c --environment INCLUDE_DEPS,NODE_ENV:production",
     "lint": "eslint \"src/**/*.js\"",
@@ -24,5 +25,11 @@
   "dependencies": {},
   "peerDependencies": {
     "hybrids": "^4.0.2"
-  }
+  },
+  "description": "Reflected properties for [hybrids.js](https://github.com/hybridsjs/hybrids).",
+  "bugs": {
+    "url": "https://github.com/nullset/hybrids-reflect/issues"
+  },
+  "homepage": "https://github.com/nullset/hybrids-reflect#readme",
+  "license": "ISC"
 }
