@@ -41,7 +41,7 @@ export default function reflect(value, methods = {}) {
               const { key, type } = watchedAttr;
               const attrValue = target.getAttribute(attributeName);
               const reflectedValue = coerceToType(attrValue, type);
-              if (reflectedValue !== host[key]) {
+              if (reflectedValue != undefined && reflectedValue !== host[key]) {
                 target[key] = reflectedValue;
               }
             }
