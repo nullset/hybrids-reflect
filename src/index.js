@@ -13,6 +13,7 @@ export default function reflect(value, methods = {}) {
   let attrName;
   let observer;
   let reflectedValue = value;
+  let defaultValue = value;
   const properties = {
     ...property(reflectedValue, function connect(host, key) {
       type = methods.type || getType(reflectedValue);
@@ -27,6 +28,7 @@ export default function reflect(value, methods = {}) {
       const attrValue = host.getAttribute(attrName);
       if (attrValue !== null) {
         reflectedValue = coerceToType(attrValue, type);
+        defaultValue = reflectedValue;
         host[key] = reflectedValue;
       }
 
@@ -43,6 +45,11 @@ export default function reflect(value, methods = {}) {
               const reflectedValue = coerceToType(attrValue, type);
               if (reflectedValue != undefined && reflectedValue !== host[key]) {
                 target[key] = reflectedValue;
+              }
+
+              // If the attribute has been removed, reset the property to the default value
+              if(!target.hasAttribute(attributeName)) {
+                target[key] = defaultValue;
               }
             }
           });
