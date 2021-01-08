@@ -13,24 +13,22 @@ export default function reflect(value, methods = {}) {
   let attrName;
   let observer;
   let reflectedValue = value;
-  let defaultValue = value;
   const properties = {
     ...property(reflectedValue, function connect(host, key) {
       type = methods.type || getType(reflectedValue);
       attrName = camelToDash(key);
       const tagName = host.tagName;
 
-      // Assign all reflected attributes to a map whose lookup is the tagName.
-      const attrMap = reflectedAttributes.get(tagName) || new Map();
-      reflectedAttributes.set(tagName, attrMap.set(attrName, { key, type }));
-
       // Set coerced value for key, as derived from attribute.
       const attrValue = host.getAttribute(attrName);
       if (attrValue !== null) {
         reflectedValue = coerceToType(attrValue, type);
-        defaultValue = reflectedValue;
         host[key] = reflectedValue;
       }
+
+      // Assign all reflected attributes to a map whose lookup is the tagName.
+      const attrMap = reflectedAttributes.get(tagName) || new Map();
+      reflectedAttributes.set(tagName, attrMap.set(attrName, { key, type, defaultValue: reflectedValue }));
 
       // Only assign a single mutation observer to watch any single host, no matter how many reflected keys it has.
       const hasObserver = hosts.get(host);
@@ -40,7 +38,7 @@ export default function reflect(value, methods = {}) {
           mutations.forEach(({ attributeName, target }) => {
             const watchedAttr = watchedAttrs.get(attributeName);
             if (watchedAttr) {
-              const { key, type } = watchedAttr;
+              const { key, type, defaultValue } = watchedAttr;
               const attrValue = target.getAttribute(attributeName);
               const reflectedValue = coerceToType(attrValue, type);
               if (reflectedValue != undefined && reflectedValue !== host[key]) {
