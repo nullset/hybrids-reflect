@@ -19,16 +19,16 @@ export default function reflect(value, methods = {}) {
       attrName = camelToDash(key);
       const tagName = host.tagName;
 
-      // Assign all reflected attributes to a map whose lookup is the tagName.
-      const attrMap = reflectedAttributes.get(tagName) || new Map();
-      reflectedAttributes.set(tagName, attrMap.set(attrName, { key, type }));
-
       // Set coerced value for key, as derived from attribute.
       const attrValue = host.getAttribute(attrName);
       if (attrValue !== null) {
         reflectedValue = coerceToType(attrValue, type);
         host[key] = reflectedValue;
       }
+
+      // Assign all reflected attributes to a map whose lookup is the tagName.
+      const attrMap = reflectedAttributes.get(tagName) || new Map();
+      reflectedAttributes.set(tagName, attrMap.set(attrName, { key, type, defaultValue: reflectedValue }));
 
       // Only assign a single mutation observer to watch any single host, no matter how many reflected keys it has.
       const hasObserver = hosts.get(host);
@@ -38,11 +38,23 @@ export default function reflect(value, methods = {}) {
           mutations.forEach(({ attributeName, target }) => {
             const watchedAttr = watchedAttrs.get(attributeName);
             if (watchedAttr) {
-              const { key, type } = watchedAttr;
+              const { key, type, defaultValue } = watchedAttr;
               const attrValue = target.getAttribute(attributeName);
               const reflectedValue = coerceToType(attrValue, type);
               if (reflectedValue != undefined && reflectedValue !== host[key]) {
                 target[key] = reflectedValue;
+              }
+
+              // If the attribute has been removed, trigger the onRemoveAttribute method if available
+              if(!target.hasAttribute(attributeName) && methods.hasOwnProperty('onRemoveAttribute') && typeof methods.onRemoveAttribute === 'function') {
+                methods.onRemoveAttribute({
+                  host,
+                  target,
+                  key,
+                  reflectedValue,
+                  attrValue,
+                  defaultValue
+                });
               }
             }
           });
