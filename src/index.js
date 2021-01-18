@@ -45,9 +45,16 @@ export default function reflect(value, methods = {}) {
                 target[key] = reflectedValue;
               }
 
-              // If the attribute has been removed, reset the property to the default value
-              if(!target.hasAttribute(attributeName)) {
-                target[key] = defaultValue;
+              // If the attribute has been removed, trigger the onRemoveAttribute method if available
+              if(!target.hasAttribute(attributeName) && methods.hasOwnProperty('onRemoveAttribute') && typeof methods.onRemoveAttribute === 'function') {
+                methods.onRemoveAttribute({
+                  host,
+                  target,
+                  key,
+                  reflectedValue,
+                  attrValue,
+                  defaultValue
+                });
               }
             }
           });
